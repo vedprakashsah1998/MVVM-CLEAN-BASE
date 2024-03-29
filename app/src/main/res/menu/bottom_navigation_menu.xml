@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /*
+  ~   Created by Ved Prakash on 3/29/24, 3:47 PM
+  ~   Copyright (c) 2024 . All rights reserved.
+  ~   Last modified 3/29/24, 3:47 PM
+  ~   Organization: NeoSoft
+  ~  */
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/paginatedListFragment"
+        android:enabled="true"
+        android:icon="@drawable/rounded_add_photo_alternate_24"
+        android:title="@string/paging_list"/>
+    <item
+        android:id="@+id/simpleListFragment"
+        android:enabled="true"
+        android:icon="@drawable/baseline_density_medium_24"
+        android:title="@string/simple_list"/>
+</menu>

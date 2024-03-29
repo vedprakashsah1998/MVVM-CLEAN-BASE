@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /*
+  ~   Created by Ved Prakash on 3/29/24, 3:08 PM
+  ~   Copyright (c) 2024 . All rights reserved.
+  ~   Last modified 3/29/24, 9:30 AM
+  ~   Organization: NeoSoft
+  ~  */
+  -->
+
+<!--
+   Sample backup rules file; uncomment and customize as necessary.
+   See https://developer.android.com/guide/topics/data/autobackup
+   for details.
+   Note: This file is ignored for devices older that API 31
+   See https://developer.android.com/about/versions/12/backup-restore
+-->
+<full-backup-content>
+    <!--
+   <include domain="sharedpref" path="."/>
+   <exclude domain="sharedpref" path="device.xml"/>
+-->
+</full-backup-content>

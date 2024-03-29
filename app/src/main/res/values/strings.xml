@@ -1,0 +1,16 @@
+<!--
+  ~ /*
+  ~   Created by Ved Prakash on 3/29/24, 3:08 PM
+  ~   Copyright (c) 2024 . All rights reserved.
+  ~   Last modified 3/29/24, 9:30 AM
+  ~   Organization: NeoSoft
+  ~  */
+  -->
+
+<resources>
+    <string name="app_name">MVVM-CLEAN-BASE</string>
+    <string name="paging_list">Paging List</string>
+    <string name="simple_list">Simple List</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
