@@ -161,6 +161,13 @@ fun ImageView.loadImage(url: Any) {
         .into(this)
 }
 
+fun ImageView.loadImageNormal(url: Any) {
+    GlideApp.with(context).load(url).placeholder(R.drawable.applogo)
+        .diskCacheStrategy(DiskCacheStrategy.DATA).into(
+            this
+        )
+}
+
 /**
  * this method is used to show toast message
  */

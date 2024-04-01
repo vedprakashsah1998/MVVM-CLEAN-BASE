@@ -17,6 +17,7 @@ import com.infinity8.mvvm_clean_base.model.Photo
 import com.infinity8.mvvm_clean_base.repository.CuratedImageRepo
 import com.infinity8.mvvm_clean_base.utils.Outcome
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -53,6 +54,11 @@ class CuratedImageViewModel @Inject constructor(private val curatedImageRepo: Cu
                 _postFlowSearchPaging.value = Outcome.Failure(e)
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
     }
 
 }

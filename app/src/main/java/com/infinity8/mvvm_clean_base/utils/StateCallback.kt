@@ -35,7 +35,7 @@ fun <T> Outcome<T>.handleStateData(
         }
 
         is Outcome.Success -> {
-            Log.d("PROGRESS STATUS: ", "Progress:${data} ")
+            Log.d("SUCCESS : ", "Progress:${data} ")
             callbacks.loadingNetwork(false)
             callbacks.successResponse(data)
         }
@@ -67,6 +67,8 @@ fun <T : Any> Outcome<PagingData<T>>.handlePaginatedCallback(
         }
 
         is Outcome.Success -> {
+            Log.d("Success STATUS: ", "Progress:${data} ")
+
             apiPaginatedListCallback.loading(false)
             apiPaginatedListCallback.successPaging(data)
         }

@@ -1,13 +1,13 @@
 /*
  *
- *  Created by Ved Prakash on 7/27/23, 5:02 PM
- *  Copyright (c) 2023 . All rights reserved.
- *  Last modified 7/27/23, 5:02 PM
- *  Organization: Honeysys
+ *   Created by Ved Prakash on 4/1/24, 11:45 AM
+ *   Copyright (c) 2024 . All rights reserved.
+ *   Last modified 4/1/24, 11:32 AM
+ *   Organization: NeoSoft
  *
  */
 
-package com.infinity8.mvvm_clean_base.adapter
+package com.infinity8.mvvm_clean_base.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

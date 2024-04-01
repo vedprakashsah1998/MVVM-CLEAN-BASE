@@ -12,7 +12,7 @@ package com.infinity8.mvvm_clean_base.datasource
 import com.infinity8.mvvm_clean_base.network.RetroService
 import javax.inject.Inject
 
-class CuratedImageListFactory @Inject constructor(val retroService: RetroService) {
+class CuratedImageListFactory @Inject constructor(private val retroService: RetroService) {
 
     fun create() = CuratedImageListSource(retroService)
 }

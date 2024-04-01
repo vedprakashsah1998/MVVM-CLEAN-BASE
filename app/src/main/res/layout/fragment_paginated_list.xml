@@ -8,11 +8,12 @@
 
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="0dp"
     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
     app:spanCount="2"
     android:id="@+id/rv_curated"
     tools:listitem="@layout/curated_item"
+    android:visibility="gone"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -22,8 +23,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/noInternetLbl"
+        app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/no_network"/>
     <ProgressBar
         android:layout_width="wrap_content"

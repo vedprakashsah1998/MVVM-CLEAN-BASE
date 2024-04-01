@@ -21,4 +21,10 @@ interface RetroService {
         @Query("per_page") per_page: String,
         @Query("page") page: String
     ): Response<CuratedImageModel>
+
+    @GET("/v1/curated")
+    suspend fun getPopularImage(
+        @Query("per_page") per_page: String,
+        @Query("page") page: String
+    ): Response<CuratedImageModel>
 }

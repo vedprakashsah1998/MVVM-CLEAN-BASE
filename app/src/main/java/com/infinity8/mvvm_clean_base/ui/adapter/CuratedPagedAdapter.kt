@@ -1,33 +1,44 @@
 /*
  *
- *   Created by Ved Prakash on 4/1/24, 9:30 AM
+ *   Created by Ved Prakash on 4/1/24, 11:45 AM
  *   Copyright (c) 2024 . All rights reserved.
- *   Last modified 4/1/24, 9:30 AM
+ *   Last modified 4/1/24, 11:32 AM
  *   Organization: NeoSoft
  *
  */
 
-package com.infinity8.mvvm_clean_base.adapter
+package com.infinity8.mvvm_clean_base.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.infinity8.mvvm_clean_base.databinding.CuratedItemBinding
 import com.infinity8.mvvm_clean_base.model.Photo
-import com.infinity8.mvvm_clean_base.utils.diff.DiffCallback
-import com.infinity8.mvvm_clean_base.utils.loadImage
+import com.infinity8.mvvm_clean_base.utils.loadImageNormal
 
-internal class CuratedPagedAdapter :
+class CuratedPagedAdapter :
     PagingDataAdapter<Photo, CuratedPagedAdapter.CuratedPageViewHolder>(
-        DiffCallback()
+        PhotoComparator
     ) {
+    object PhotoComparator : DiffUtil.ItemCallback<Photo>() {
+        override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean {
+            // Id is unique.
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
+            return oldItem == newItem
+        }
+    }
+
     inner class CuratedPageViewHolder(private val binding: CuratedItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: Photo?) {
             binding.artistName.text = photo?.photographer
             binding.artistBody.text = photo?.alt
-            binding.imgSrc.loadImage(photo?.src?.large2x.toString())
+            binding.imgSrc.loadImageNormal(photo?.src?.large2x.toString())
         }
     }
 
