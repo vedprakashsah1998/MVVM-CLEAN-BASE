@@ -11,6 +11,9 @@ package com.infinity8.mvvm_clean_base.utils
 
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.paging.PagingData
+import com.infinity8.mvvm_clean_base.controller.ApiPaginatedListCallback
 import com.infinity8.mvvm_clean_base.controller.Callbacks
 
 /**
@@ -49,4 +52,35 @@ fun <T> Outcome<T>.handleStateData(
             callbacks.unknownBehaviour(message)
         }
     }
+}
+
+
+fun <T : Any> Outcome<PagingData<T>>.handlePaginatedCallback(
+    apiPaginatedListCallback: ApiPaginatedListCallback<T>,
+    fragment: Fragment,
+) {
+    when (this) {
+        is Outcome.Progress -> {
+            Log.d("PROGRESS STATUS: ", "Progress:${loading} ")
+            apiPaginatedListCallback.loading(this.loading)
+
+        }
+
+        is Outcome.Success -> {
+            apiPaginatedListCallback.loading(false)
+            apiPaginatedListCallback.successPaging(data)
+        }
+
+        is Outcome.Failure -> {
+            Log.d("FAILURE RESPONSE: ", "Failure: ${error.message}")
+            apiPaginatedListCallback.loading(false)
+            fragment.showErrorSnackBar(this.error.message.toString())
+        }
+
+        is Outcome.Unknown -> {
+            Log.d("UNKNOWN_BEHAVIOUR: ", "Unknown")
+
+        }
+    }
+
 }

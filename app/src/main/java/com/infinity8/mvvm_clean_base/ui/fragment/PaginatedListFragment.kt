@@ -1,60 +1,88 @@
 package com.infinity8.mvvm_clean_base.ui.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.infinity8.mvvm_clean_base.R
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import com.infinity8.mvvm_clean_base.adapter.CuratedPagedAdapter
+import com.infinity8.mvvm_clean_base.adapter.MainLoadStateAdapter
+import com.infinity8.mvvm_clean_base.controller.ApiPaginatedListCallback
+import com.infinity8.mvvm_clean_base.databinding.FragmentPaginatedListBinding
+import com.infinity8.mvvm_clean_base.model.Photo
+import com.infinity8.mvvm_clean_base.ui.BaseFragment
+import com.infinity8.mvvm_clean_base.utils.flowWithLifecycleUI
+import com.infinity8.mvvm_clean_base.utils.handlePaginatedCallback
+import com.infinity8.mvvm_clean_base.utils.isNetworkAvailable
+import com.infinity8.mvvm_clean_base.utils.showErrorSnackBar
+import com.infinity8.mvvm_clean_base.viewmodel.CuratedImageViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class PaginatedListFragment :
+    BaseFragment<FragmentPaginatedListBinding>(FragmentPaginatedListBinding::inflate),
+    ApiPaginatedListCallback<Photo> {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PaginatedListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class PaginatedListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val curatedPageAdapter: CuratedPagedAdapter by lazy {
+        CuratedPagedAdapter()
+    }
+    private val curatedImageViewModel: CuratedImageViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.rvCurated.apply {
+            setHasFixedSize(true)
+            adapter = curatedPageAdapter.withLoadStateFooter(footer = MainLoadStateAdapter())
+        }
+        if (requireContext().isNetworkAvailable()) {
+            binding.rvCurated.visibility = View.VISIBLE
+            binding.noInternetLbl.visibility = View.GONE
+            getPhotoList()
+        } else {
+            binding.rvCurated.visibility = View.GONE
+            binding.noInternetLbl.visibility = View.VISIBLE
+        }
+
+    }
+
+    private fun getPhotoList() {
+        curatedImageViewModel.getCuratedImage()
+        loadProductIntoList()
+        viewLifecycleOwner.flowWithLifecycleUI(
+            curatedImageViewModel.postFlowSearchPaging,
+            Lifecycle.State.CREATED
+        ) { paginatedResponse ->
+            paginatedResponse.handlePaginatedCallback(this, this)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_paginated_list, container, false)
-    }
+    private fun loadProductIntoList() =
+        curatedPageAdapter.addLoadStateListener { loadState ->
+            when (val currentState = loadState.refresh) {
+                is LoadState.Loading -> {
+                    binding.progress.visibility = View.VISIBLE
+                }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PaginatedListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PaginatedListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                is LoadState.Error -> {
+                    val extractedException = currentState.error
+                    showErrorSnackBar(extractedException.message.toString())
+                    binding.progress.visibility = View.GONE
+                }
+
+                is LoadState.NotLoading -> {
+                    binding.progress.visibility = View.GONE
+
+
                 }
             }
-    }
+
+        }
+
+    override fun successPaging(list: PagingData<Photo>) = curatedPageAdapter.submitData(
+        viewLifecycleOwner.lifecycle,
+        list
+    )
+
 }

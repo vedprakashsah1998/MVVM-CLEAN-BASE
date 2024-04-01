@@ -18,7 +18,7 @@ class AuthInterceptor:Interceptor {
         val originalRequest = chain.request()
         val token = BuildConfig.Authorization
         val modifiedRequest = originalRequest.newBuilder()
-            .header("Authorization", "Bearer $token")
+            .header("Authorization",  token)
             .build()
         return chain.proceed(modifiedRequest)
     }

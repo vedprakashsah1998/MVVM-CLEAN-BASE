@@ -12,9 +12,14 @@ package com.infinity8.mvvm_clean_base.datasource
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.infinity8.mvvm_clean_base.model.Photo
+import com.infinity8.mvvm_clean_base.network.RetroService
+import com.infinity8.mvvm_clean_base.utils.BAD_GATEWAY
+import com.infinity8.mvvm_clean_base.utils.ERROR_MESSAGE
+import com.infinity8.mvvm_clean_base.utils.FAILURE_MESSAGE
 import javax.inject.Inject
 
-class CuratedImageListSource @Inject constructor() : PagingSource<Int, Photo>() {
+class CuratedImageListSource @Inject constructor(private val retroService: RetroService) :
+    PagingSource<Int, Photo>() {
     override val jumpingSupported: Boolean = true
 
     override fun getRefreshKey(state: PagingState<Int, Photo>) =
@@ -24,6 +29,30 @@ class CuratedImageListSource @Inject constructor() : PagingSource<Int, Photo>() 
         }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Photo> {
-        TODO("Not yet implemented")
+        val page = params.key ?: 1
+        return try {
+
+            val pageSize = params.loadSize
+            val response = retroService.getCuratedImage(pageSize.toString(), page.toString())
+            if (response.isSuccessful) {
+                val photoList = response.body()?.photos ?: emptyList()
+                val prevKey = if (page > 1) page - 1 else null
+                val nextKey = if (photoList.isNotEmpty()) page + 1 else null
+                LoadResult.Page(photoList, prevKey, nextKey)
+
+            } else {
+                LoadResult.Error(
+                    Exception(
+                        when (response.code()) {
+                            503 -> FAILURE_MESSAGE
+                            502 -> BAD_GATEWAY
+                            else -> ERROR_MESSAGE
+                        }
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            LoadResult.Error(e)
+        }
     }
 }
