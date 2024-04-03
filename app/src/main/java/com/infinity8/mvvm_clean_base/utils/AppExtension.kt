@@ -24,6 +24,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
@@ -31,7 +32,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
-import com.infinity8.mvvm_clean_base.GlideApp
 import com.infinity8.mvvm_clean_base.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -122,7 +122,7 @@ fun ImageView.loadImageWithGlide(
     onLoading: () -> Unit,
 ) {
     onLoading()
-    GlideApp.with(context)
+    Glide.with(context)
         .load(url).listener(object : RequestListener<Drawable> {
             override fun onLoadFailed(
                 e: GlideException?,
@@ -153,7 +153,7 @@ fun ImageView.loadImageWithGlide(
 }
 
 fun ImageView.loadImage(url: Any) {
-    GlideApp.with(context).load(url)
+    Glide.with(context).load(url)
         .placeholder(R.drawable.applogo)
         .transform(CircleCrop())
         .override(100, 100)
@@ -162,7 +162,7 @@ fun ImageView.loadImage(url: Any) {
 }
 
 fun ImageView.loadImageNormal(url: Any) {
-    GlideApp.with(context).load(url).placeholder(R.drawable.applogo)
+    Glide.with(context).load(url).placeholder(R.drawable.applogo)
         .diskCacheStrategy(DiskCacheStrategy.DATA).into(
             this
         )

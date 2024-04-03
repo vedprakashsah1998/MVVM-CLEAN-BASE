@@ -14,7 +14,8 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.hiltApp)
     id("kotlin-parcelize")
-    kotlin("kapt")
+//    kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -92,8 +93,8 @@ dependencies {
 
     //hilt
     implementation(libs.hilt.dagger)
-    kapt(libs.hilt.compiler)
-    kapt(libs.lifecycle.compiler)
+    ksp(libs.hilt.compiler)
+    ksp(libs.lifecycle.compiler)
 
     //Retrofit
     implementation(libs.gson)
@@ -103,7 +104,7 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     implementation(libs.glide.android)
-    kapt(libs.glide.compiler)
+    ksp(libs.glide.compiler)
 
     implementation(libs.androidx.paging.runtime.ktx)
 
