@@ -16,6 +16,7 @@ import com.infinity8.mvvm_clean_base.use_case.PopularUseCase
 import com.infinity8.mvvm_clean_base.utils.Outcome
 import com.infinity8.mvvm_clean_base.utils.mapOutcome
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -44,5 +45,9 @@ class PopularImgViewModel @Inject constructor(private val popularUseCase: Popula
                 _postFlowSearchPaging.value = it.mapOutcome { data -> data }
             }
         }
+    }
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
     }
 }
