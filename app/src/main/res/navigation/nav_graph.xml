@@ -17,10 +17,22 @@
         android:id="@+id/paginatedListFragment"
         android:name="com.infinity8.mvvm_clean_base.ui.fragment.PaginatedListFragment"
         android:label="@string/paging_list"
-        tools:layout="@layout/fragment_paginated_list" />
+        tools:layout="@layout/fragment_paginated_list">
+        <action
+            android:id="@+id/action_paginatedListFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <argument
+            android:name="photo"
+            app:argType="com.infinity8.mvvm_clean_base.model.Photo" />
+    </fragment>
     <fragment
         android:id="@+id/simpleListFragment"
         android:name="com.infinity8.mvvm_clean_base.ui.fragment.SimpleListFragment"
         android:label="@string/simple_list"
         tools:layout="@layout/fragment_simple_list_fragement" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.infinity8.mvvm_clean_base.ui.fragment.DetailsFragment"
+        android:label="@string/details_fragment"
+        tools:layout="@layout/fragment_details" />
 </navigation>

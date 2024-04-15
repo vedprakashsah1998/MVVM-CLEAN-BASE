@@ -13,9 +13,10 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.hiltApp)
+    alias(libs.plugins.navigationSafeArgs)
     id("kotlin-parcelize")
 //    kotlin("kapt")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.devToolKsp)
 }
 
 android {

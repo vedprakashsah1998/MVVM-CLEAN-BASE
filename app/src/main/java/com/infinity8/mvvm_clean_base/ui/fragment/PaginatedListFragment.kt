@@ -2,11 +2,15 @@ package com.infinity8.mvvm_clean_base.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
+import com.infinity8.mvvm_clean_base.R
 import com.infinity8.mvvm_clean_base.controller.ApiPaginatedListCallback
+import com.infinity8.mvvm_clean_base.controller.UICallback
 import com.infinity8.mvvm_clean_base.databinding.FragmentPaginatedListBinding
 import com.infinity8.mvvm_clean_base.model.Photo
 import com.infinity8.mvvm_clean_base.ui.BaseFragment
@@ -22,10 +26,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PaginatedListFragment :
     BaseFragment<FragmentPaginatedListBinding>(FragmentPaginatedListBinding::inflate),
-    ApiPaginatedListCallback<Photo> {
+    ApiPaginatedListCallback<Photo>, UICallback {
 
     private val curatedPageAdapter: CuratedPagedAdapter by lazy {
-        CuratedPagedAdapter()
+        CuratedPagedAdapter(this@PaginatedListFragment)
     }
     private val curatedImageViewModel: CuratedImageViewModel by activityViewModels()
 
@@ -45,6 +49,11 @@ class PaginatedListFragment :
         }
 
     }
+
+    override fun recyclerviewItemClick(photo: Photo?) = findNavController().navigate(
+        R.id.action_paginatedListFragment_to_detailsFragment,
+        bundleOf("photo" to photo)
+    )
 
     private fun getPhotoList() {
         curatedImageViewModel.getCuratedImage()

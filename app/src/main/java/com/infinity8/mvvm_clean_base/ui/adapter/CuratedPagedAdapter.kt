@@ -14,11 +14,12 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.infinity8.mvvm_clean_base.controller.UICallback
 import com.infinity8.mvvm_clean_base.databinding.CuratedItemBinding
 import com.infinity8.mvvm_clean_base.model.Photo
 import com.infinity8.mvvm_clean_base.utils.loadImageNormal
 
-class CuratedPagedAdapter :
+class CuratedPagedAdapter(val uiCallback: UICallback) :
     PagingDataAdapter<Photo, CuratedPagedAdapter.CuratedPageViewHolder>(
         PhotoComparator
     ) {
@@ -39,6 +40,13 @@ class CuratedPagedAdapter :
             binding.artistName.text = photo?.photographer
             binding.artistBody.text = photo?.alt
             binding.imgSrc.loadImageNormal(photo?.src?.large2x.toString())
+
+            binding.root.setOnClickListener {
+                val adapterPosition = bindingAdapterPosition
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    uiCallback.recyclerviewItemClick(photo)
+                }
+            }
         }
     }
 
