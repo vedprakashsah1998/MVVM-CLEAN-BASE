@@ -48,7 +48,7 @@ class PaginatedListFragment :
             binding.noInternetLbl.visibility = View.VISIBLE
         }
         binding.search.setOnClickListener {
-            findNavController().navigate(R.id.action_paginatedListFragment_to_searchFragment)
+            findNavController().navigate(R.id.action_paginatedListFragment_to_barGraphUI)
         }
 
     }
