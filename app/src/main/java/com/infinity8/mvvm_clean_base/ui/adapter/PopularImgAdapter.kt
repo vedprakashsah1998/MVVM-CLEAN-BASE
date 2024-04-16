@@ -12,18 +12,25 @@ package com.infinity8.mvvm_clean_base.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.infinity8.mvvm_clean_base.controller.UICallback
 import com.infinity8.mvvm_clean_base.databinding.CuratedItemBinding
 import com.infinity8.mvvm_clean_base.model.Photo
 import com.infinity8.mvvm_clean_base.utils.diff.createAsyncListDifferWithDiffCallback
 import com.infinity8.mvvm_clean_base.utils.loadImageNormal
 
-class PopularImgAdapter : RecyclerView.Adapter<PopularImgAdapter.PopularImgHolder>() {
+internal class PopularImgAdapter(val uiCallback: UICallback) : RecyclerView.Adapter<PopularImgAdapter.PopularImgHolder>() {
     inner class PopularImgHolder(private val binding: CuratedItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: Photo?) {
             binding.artistName.text = photo?.photographer
             binding.artistBody.text = photo?.alt
             binding.imgSrc.loadImageNormal(photo?.src?.large2x.toString())
+            binding.root.setOnClickListener {
+                val adapterPosition = bindingAdapterPosition
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    uiCallback.recyclerviewItemClick(photo)
+                }
+            }
         }
     }
 
@@ -35,7 +42,6 @@ class PopularImgAdapter : RecyclerView.Adapter<PopularImgAdapter.PopularImgHolde
 
     override fun getItemCount() = diffCall.currentList.size
 
-    override fun onBindViewHolder(holder: PopularImgHolder, position: Int) {
+    override fun onBindViewHolder(holder: PopularImgHolder, position: Int) =
         holder.bind(diffCall.currentList[position])
-    }
 }

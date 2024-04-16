@@ -5,7 +5,20 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.PaginatedListFragment">
-
+<com.google.android.material.appbar.MaterialToolbar
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:title="@string/pexels"
+    android:id="@+id/toolbar"
+    >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/search"
+        android:layout_gravity="end"
+        android:src="@android:drawable/ic_menu_search"/>
+</com.google.android.material.appbar.MaterialToolbar>
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -14,7 +27,7 @@
     android:id="@+id/rv_curated"
     tools:listitem="@layout/curated_item"
     android:visibility="gone"
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/toolbar"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"/>
 

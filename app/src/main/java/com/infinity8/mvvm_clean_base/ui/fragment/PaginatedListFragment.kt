@@ -47,6 +47,9 @@ class PaginatedListFragment :
             binding.rvCurated.visibility = View.GONE
             binding.noInternetLbl.visibility = View.VISIBLE
         }
+        binding.search.setOnClickListener {
+            findNavController().navigate(R.id.action_paginatedListFragment_to_searchFragment)
+        }
 
     }
 

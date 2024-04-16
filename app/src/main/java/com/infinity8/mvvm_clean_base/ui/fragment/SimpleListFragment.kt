@@ -2,11 +2,16 @@ package com.infinity8.mvvm_clean_base.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
+import com.infinity8.mvvm_clean_base.R
 import com.infinity8.mvvm_clean_base.controller.Callbacks
+import com.infinity8.mvvm_clean_base.controller.UICallback
 import com.infinity8.mvvm_clean_base.databinding.FragmentSimpleListFragementBinding
 import com.infinity8.mvvm_clean_base.model.CuratedImageModel
+import com.infinity8.mvvm_clean_base.model.Photo
 import com.infinity8.mvvm_clean_base.ui.BaseFragment
 import com.infinity8.mvvm_clean_base.ui.adapter.PopularImgAdapter
 import com.infinity8.mvvm_clean_base.utils.handleStateData
@@ -18,11 +23,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SimpleListFragment :
     BaseFragment<FragmentSimpleListFragementBinding>(FragmentSimpleListFragementBinding::inflate),
-    Callbacks {
+    Callbacks, UICallback {
     private val popularImgViewModel: PopularImgViewModel by activityViewModels()
 
     private val popularImgAdapter: PopularImgAdapter by lazy {
-        PopularImgAdapter()
+        PopularImgAdapter(this@SimpleListFragment)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,6 +60,11 @@ class SimpleListFragment :
         val resList = result as CuratedImageModel
         popularImgAdapter.diffCall.submitList(resList.photos)
     }
+
+    override fun recyclerviewItemClick(photo: Photo?) = findNavController().navigate(
+        R.id.action_simpleListFragment_to_detailsFragment,
+        bundleOf("photo" to photo)
+    )
 
     override fun <T> loadingNetwork(result: T) {
         val res = result as Boolean

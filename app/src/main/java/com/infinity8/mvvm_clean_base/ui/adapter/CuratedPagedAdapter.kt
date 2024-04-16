@@ -19,7 +19,7 @@ import com.infinity8.mvvm_clean_base.databinding.CuratedItemBinding
 import com.infinity8.mvvm_clean_base.model.Photo
 import com.infinity8.mvvm_clean_base.utils.loadImageNormal
 
-class CuratedPagedAdapter(val uiCallback: UICallback) :
+internal class CuratedPagedAdapter(val uiCallback: UICallback) :
     PagingDataAdapter<Photo, CuratedPagedAdapter.CuratedPageViewHolder>(
         PhotoComparator
     ) {
@@ -50,9 +50,8 @@ class CuratedPagedAdapter(val uiCallback: UICallback) :
         }
     }
 
-    override fun onBindViewHolder(holder: CuratedPageViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CuratedPageViewHolder, position: Int) =
         holder.bind(getItem(position))
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

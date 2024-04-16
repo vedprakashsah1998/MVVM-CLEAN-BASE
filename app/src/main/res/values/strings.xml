@@ -15,4 +15,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_network">No Network</string>
     <string name="details_fragment">Details Fragment</string>
+    <string name="hello_world">Hello World</string>
+    <string name="search_fragment">Search Fragment</string>
+    <string name="pexels">Pexels</string>
 </resources>

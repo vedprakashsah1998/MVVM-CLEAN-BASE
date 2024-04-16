@@ -22,7 +22,7 @@ interface RetroService {
         @Query("page") page: String
     ): Response<CuratedImageModel>
 
-    @GET("/v1/curated")
+    @GET("/v1/popular")
     suspend fun getPopularImage(
         @Query("per_page") per_page: String,
         @Query("page") page: String
