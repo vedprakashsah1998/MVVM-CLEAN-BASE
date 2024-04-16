@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /*
+  ~   Created by Ved Prakash on 4/16/24, 3:05 PM
+  ~   Copyright (c) 2024 . All rights reserved.
+  ~   Last modified 4/16/24, 3:05 PM
+  ~   Organization: NeoSoft
+  ~  */
+  -->
+
+<resources>
+    <declare-styleable name="CustomCircularProgressBar">
+        <attr name="progressColor" format="color" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="progress" format="float" />
+        <attr name="maxProgress" format="float" />
+        <attr name="centerImage" format="reference" />
+        <attr name="progressDrawable" format="reference" />
+    </declare-styleable>
+</resources>
