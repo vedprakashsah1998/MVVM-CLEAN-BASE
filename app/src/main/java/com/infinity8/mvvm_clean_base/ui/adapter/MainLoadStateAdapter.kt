@@ -27,8 +27,6 @@ internal class MainLoadStateAdapter : LoadStateAdapter<MainLoadStateAdapter.Load
         )
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
-        holder.binding.apply {
-            progress.isVisible = loadState is LoadState.Loading
-        }
+        holder.binding.progress.isVisible = loadState is LoadState.Loading
     }
 }

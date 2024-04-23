@@ -14,6 +14,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.os.Build
+import android.view.View
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
 object Util {
 
@@ -32,5 +35,18 @@ fun Context.isNetworkAvailable(): Boolean {
     } else {
         val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
         networkInfo != null && networkInfo.isConnected
+    }
+}
+fun Context.checkNetwork(
+    recyclerView: RecyclerView,
+    noInternetLabel: TextView,
+    getPhotoList: () -> Unit){
+    if (this.isNetworkAvailable()) {
+        recyclerView.visibility = View.VISIBLE
+        noInternetLabel.visibility = View.GONE
+        getPhotoList()
+    } else {
+        recyclerView.visibility = View.GONE
+        noInternetLabel.visibility = View.VISIBLE
     }
 }

@@ -14,8 +14,8 @@ import com.infinity8.mvvm_clean_base.model.CuratedImageModel
 import com.infinity8.mvvm_clean_base.model.Photo
 import com.infinity8.mvvm_clean_base.ui.BaseFragment
 import com.infinity8.mvvm_clean_base.ui.adapter.PopularImgAdapter
+import com.infinity8.mvvm_clean_base.utils.checkNetwork
 import com.infinity8.mvvm_clean_base.utils.handleStateData
-import com.infinity8.mvvm_clean_base.utils.isNetworkAvailable
 import com.infinity8.mvvm_clean_base.utils.launchWithLifecycle
 import com.infinity8.mvvm_clean_base.viewmodel.PopularImgViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,14 +36,7 @@ class SimpleListFragment :
             setHasFixedSize(true)
             adapter = popularImgAdapter
         }
-        if (requireContext().isNetworkAvailable()) {
-            binding.rvPopular.visibility = View.VISIBLE
-            binding.noInternetLbl.visibility = View.GONE
-            getPhotoList()
-        } else {
-            binding.rvPopular.visibility = View.GONE
-            binding.noInternetLbl.visibility = View.VISIBLE
-        }
+        requireContext().checkNetwork(binding.rvPopular, binding.noInternetLbl) { getPhotoList() }
     }
 
     private fun getPhotoList() {

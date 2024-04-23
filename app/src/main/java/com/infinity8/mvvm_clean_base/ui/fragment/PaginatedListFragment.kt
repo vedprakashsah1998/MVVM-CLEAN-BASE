@@ -16,9 +16,9 @@ import com.infinity8.mvvm_clean_base.model.Photo
 import com.infinity8.mvvm_clean_base.ui.BaseFragment
 import com.infinity8.mvvm_clean_base.ui.adapter.CuratedPagedAdapter
 import com.infinity8.mvvm_clean_base.ui.adapter.MainLoadStateAdapter
+import com.infinity8.mvvm_clean_base.utils.checkNetwork
 import com.infinity8.mvvm_clean_base.utils.flowWithLifecycleUI
 import com.infinity8.mvvm_clean_base.utils.handlePaginatedCallback
-import com.infinity8.mvvm_clean_base.utils.isNetworkAvailable
 import com.infinity8.mvvm_clean_base.utils.showErrorSnackBar
 import com.infinity8.mvvm_clean_base.viewmodel.CuratedImageViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,13 +39,8 @@ class PaginatedListFragment :
             setHasFixedSize(true)
             adapter = curatedPageAdapter.withLoadStateFooter(footer = MainLoadStateAdapter())
         }
-        if (requireContext().isNetworkAvailable()) {
-            binding.rvCurated.visibility = View.VISIBLE
-            binding.noInternetLbl.visibility = View.GONE
+        requireContext().checkNetwork(binding.rvCurated, binding.noInternetLbl) {
             getPhotoList()
-        } else {
-            binding.rvCurated.visibility = View.GONE
-            binding.noInternetLbl.visibility = View.VISIBLE
         }
         binding.search.setOnClickListener {
             findNavController().navigate(R.id.action_paginatedListFragment_to_barGraphUI)

@@ -17,5 +17,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class BarModel(
     val monthName: String,
-    val barValue: Int
+    val barValue: Int,
+    var value:Boolean
 ) : Parcelable

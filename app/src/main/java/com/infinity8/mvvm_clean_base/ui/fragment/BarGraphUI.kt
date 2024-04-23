@@ -12,7 +12,7 @@ import com.infinity8.mvvm_clean_base.ui.adapter.RvBarGraphAdapter
 class BarGraphUI : BaseFragment<FragmentBarGraphUIBinding>(FragmentBarGraphUIBinding::inflate) {
 
     private val rvBarGraphAdapter: RvBarGraphAdapter by lazy {
-        RvBarGraphAdapter()
+        RvBarGraphAdapter(getContextNullSafety()!!)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,13 +24,13 @@ class BarGraphUI : BaseFragment<FragmentBarGraphUIBinding>(FragmentBarGraphUIBin
         }
         rvBarGraphAdapter.diffCall.submitList(
             listOf(
-                BarModel("Jan", 10),
-                BarModel("Feb", 7),
-                BarModel("Mar", 8),
-                BarModel("Apr", 6),
-                BarModel("May", 23),
-                BarModel("Jun", 7),
-                BarModel("Jul", 33)
+                BarModel("Jan", 10,false),
+                BarModel("Feb", 7,false),
+                BarModel("Mar", 8,false),
+                BarModel("Apr", 6,true),
+                BarModel("May", 23,false),
+                BarModel("Jun", 7,false),
+                BarModel("Jul", 33,false)
             )
         )
     }

@@ -9,18 +9,23 @@
 
 package com.infinity8.mvvm_clean_base.ui.adapter
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.infinity8.mvvm_clean_base.R
 import com.infinity8.mvvm_clean_base.databinding.RvBarGraphItemBinding
 import com.infinity8.mvvm_clean_base.model.BarModel
 import com.infinity8.mvvm_clean_base.utils.diff.createAsyncListDifferWithDiffCallback
 import kotlin.math.roundToInt
 
-class RvBarGraphAdapter : RecyclerView.Adapter<RvBarGraphAdapter.RvBarHolder>() {
+class RvBarGraphAdapter(val context: Context) :
+    RecyclerView.Adapter<RvBarGraphAdapter.RvBarHolder>() {
     inner class RvBarHolder(val binding: RvBarGraphItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -40,21 +45,47 @@ class RvBarGraphAdapter : RecyclerView.Adapter<RvBarGraphAdapter.RvBarHolder>() 
     override fun onBindViewHolder(holder: RvBarHolder, position: Int) {
         val data = diffCall.currentList[position]
         holder.binding.monthName.text = data.monthName
-
+        val isItemSelected = position == selectedItemPosition || data.value
         val customHeight = calculateCustomHeight(data.barValue)
         val layoutParams = holder.binding.barItem.layoutParams as ConstraintLayout.LayoutParams
         layoutParams.height = customHeight
         layoutParams.topMargin = dpToPx(200) - customHeight
         holder.binding.barItem.layoutParams = layoutParams
 
-        holder.binding.selectedColor.visibility =
-            if (position == selectedItemPosition || customHeight == 120) View.VISIBLE else View.GONE
+      /*  holder.binding.barItem.backgroundTintList =
+            if (position == selectedItemPosition || customHeight == 60) {
+                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white_fade))
+            } else {
+                ColorStateList.valueOf(Color.TRANSPARENT)
+            }*/
+        holder.binding.barItem.backgroundTintList =
+            if (isItemSelected) {
+                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white_fade))
+            } else {
+                ColorStateList.valueOf(Color.TRANSPARENT)
+            }
+
+        holder.binding.monthName.setTextColor(
+            if (isItemSelected) {
+                ColorStateList.valueOf(ContextCompat.getColor(context, android.R.color.darker_gray))
+            } else {
+                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.black))
+            }
+        )
+
+        holder.binding.selectedColor.backgroundTintList =
+            if (isItemSelected) {
+                ColorStateList.valueOf(ContextCompat.getColor(context, android.R.color.holo_purple))
+
+            } else {
+                ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white_fade))
+            }
         holder.binding.barItem.setOnClickListener {
+            data.value = !data.value // Toggle the value state for this item
             val previousSelectedItemPosition = selectedItemPosition
-            selectedItemPosition = holder.absoluteAdapterPosition
+            selectedItemPosition = if (data.value) position else RecyclerView.NO_POSITION
             notifyItemChanged(previousSelectedItemPosition)
             notifyItemChanged(selectedItemPosition)
-            holder.binding.selectedColor.visibility = View.VISIBLE
         }
     }
 

@@ -16,31 +16,34 @@
     <RelativeLayout
         android:id="@+id/barItem"
         android:layout_width="36dp"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:background="@drawable/bar_des"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="5dp"
-        android:layout_marginTop="22dp" >
-        <View
+         >
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:id="@+id/selectedColor"
-            android:visibility="gone"
-            android:layout_height="match_parent"
-            android:backgroundTint="@android:color/holo_purple"
+            android:layout_height="50dp"
+            android:text="Hello"
+            android:layout_marginBottom="22dp"
+            android:layout_margin="4dp"
             android:background="@drawable/bar_des"
             />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/monthName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jan"
+            android:textColor="@android:color/holo_purple"
+            android:textSize="12sp"
+            android:layout_marginTop="22dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="8dp"/>
     </RelativeLayout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/monthName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Jan"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barItem"
-        android:layout_marginTop="12dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
