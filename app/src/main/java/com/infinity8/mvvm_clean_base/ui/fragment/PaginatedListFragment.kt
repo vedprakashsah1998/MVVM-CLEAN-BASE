@@ -19,6 +19,7 @@ import com.infinity8.mvvm_clean_base.ui.adapter.MainLoadStateAdapter
 import com.infinity8.mvvm_clean_base.utils.checkNetwork
 import com.infinity8.mvvm_clean_base.utils.flowWithLifecycleUI
 import com.infinity8.mvvm_clean_base.utils.handlePaginatedCallback
+import com.infinity8.mvvm_clean_base.utils.setUpAdapter
 import com.infinity8.mvvm_clean_base.utils.showErrorSnackBar
 import com.infinity8.mvvm_clean_base.viewmodel.CuratedImageViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,10 +36,7 @@ class PaginatedListFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvCurated.apply {
-            setHasFixedSize(true)
-            adapter = curatedPageAdapter.withLoadStateFooter(footer = MainLoadStateAdapter())
-        }
+        binding.rvCurated.setUpAdapter(curatedPageAdapter.withLoadStateFooter(footer = MainLoadStateAdapter()))
         requireContext().checkNetwork(binding.rvCurated, binding.noInternetLbl) {
             getPhotoList()
         }

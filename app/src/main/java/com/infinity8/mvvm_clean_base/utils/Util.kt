@@ -17,10 +17,6 @@ import android.os.Build
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-
-object Util {
-
-}
 fun Context.isNetworkAvailable(): Boolean {
     val connectivityManager =
         this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -37,10 +33,12 @@ fun Context.isNetworkAvailable(): Boolean {
         networkInfo != null && networkInfo.isConnected
     }
 }
+
 fun Context.checkNetwork(
     recyclerView: RecyclerView,
     noInternetLabel: TextView,
-    getPhotoList: () -> Unit){
+    getPhotoList: () -> Unit
+) {
     if (this.isNetworkAvailable()) {
         recyclerView.visibility = View.VISIBLE
         noInternetLabel.visibility = View.GONE
@@ -49,4 +47,11 @@ fun Context.checkNetwork(
         recyclerView.visibility = View.GONE
         noInternetLabel.visibility = View.VISIBLE
     }
+}
+
+inline fun <reified T : RecyclerView.Adapter<*>> RecyclerView.setUpAdapter(
+    adapter: T? = null
+) {
+    setHasFixedSize(true)
+    this.adapter = adapter
 }

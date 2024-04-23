@@ -17,6 +17,7 @@ import com.infinity8.mvvm_clean_base.ui.adapter.PopularImgAdapter
 import com.infinity8.mvvm_clean_base.utils.checkNetwork
 import com.infinity8.mvvm_clean_base.utils.handleStateData
 import com.infinity8.mvvm_clean_base.utils.launchWithLifecycle
+import com.infinity8.mvvm_clean_base.utils.setUpAdapter
 import com.infinity8.mvvm_clean_base.viewmodel.PopularImgViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,10 +33,7 @@ class SimpleListFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvPopular.apply {
-            setHasFixedSize(true)
-            adapter = popularImgAdapter
-        }
+        binding.rvPopular.setUpAdapter(popularImgAdapter)
         requireContext().checkNetwork(binding.rvPopular, binding.noInternetLbl) { getPhotoList() }
     }
 
