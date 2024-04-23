@@ -11,7 +11,11 @@ package com.infinity8.mvvm_clean_base.use_case
 
 import com.infinity8.mvvm_clean_base.model.CuratedImageModel
 import com.infinity8.mvvm_clean_base.repository.PopularImgRepo
+import com.infinity8.mvvm_clean_base.utils.BAD_GATEWAY
+import com.infinity8.mvvm_clean_base.utils.ERROR_MESSAGE
+import com.infinity8.mvvm_clean_base.utils.FAILURE_MESSAGE
 import com.infinity8.mvvm_clean_base.utils.Outcome
+import com.infinity8.mvvm_clean_base.utils.TOO_MANY_REQUEST
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -25,12 +29,26 @@ class PopularUseCase @Inject constructor(private val popularImgRepo: PopularImgR
                 if (response.isSuccessful) {
                     if (response.code() == 200) {
                         send(Outcome.Success(response.body()))
-
                     } else {
-                        send(Outcome.Failure(Throwable("Failed body")))
+                        if (response.code() == 429) {
+                            send(Outcome.Failure(Throwable(TOO_MANY_REQUEST)))
+                        } else {
+                            send(Outcome.Failure(Throwable("Failed body")))
+                        }
                     }
                 } else {
-                    send(Outcome.Failure(Throwable("Error Found")))
+                    send(
+                        Outcome.Failure(
+                            Throwable(
+                                when (response.code()) {
+                                    503 -> FAILURE_MESSAGE
+                                    502 -> BAD_GATEWAY
+                                    429 -> TOO_MANY_REQUEST
+                                    else -> ERROR_MESSAGE
+                                }
+                            )
+                        )
+                    )
                 }
 
             }

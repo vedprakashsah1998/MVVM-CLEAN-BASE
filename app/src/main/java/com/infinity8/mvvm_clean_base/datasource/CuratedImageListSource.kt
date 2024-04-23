@@ -16,6 +16,7 @@ import com.infinity8.mvvm_clean_base.network.RetroService
 import com.infinity8.mvvm_clean_base.utils.BAD_GATEWAY
 import com.infinity8.mvvm_clean_base.utils.ERROR_MESSAGE
 import com.infinity8.mvvm_clean_base.utils.FAILURE_MESSAGE
+import com.infinity8.mvvm_clean_base.utils.TOO_MANY_REQUEST
 import javax.inject.Inject
 
 class CuratedImageListSource @Inject constructor(private val retroService: RetroService) :
@@ -35,17 +36,21 @@ class CuratedImageListSource @Inject constructor(private val retroService: Retro
             val pageSize = params.loadSize
             val response = retroService.getCuratedImage(pageSize.toString(), page.toString())
             if (response.isSuccessful) {
-                val photoList = response.body()?.photos ?: emptyList()
-                val prevKey = if (page > 1) page - 1 else null
-                val nextKey = if (photoList.isNotEmpty()) page + 1 else null
-                LoadResult.Page(photoList, prevKey, nextKey)
-
+                if (response.code() == 429) {
+                    LoadResult.Error(Exception(TOO_MANY_REQUEST))
+                } else {
+                    val photoList = response.body()?.photos ?: emptyList()
+                    val prevKey = if (page > 1) page - 1 else null
+                    val nextKey = if (photoList.isNotEmpty()) page + 1 else null
+                    LoadResult.Page(photoList, prevKey, nextKey)
+                }
             } else {
                 LoadResult.Error(
                     Exception(
                         when (response.code()) {
                             503 -> FAILURE_MESSAGE
                             502 -> BAD_GATEWAY
+                            429 -> TOO_MANY_REQUEST
                             else -> ERROR_MESSAGE
                         }
                     )
