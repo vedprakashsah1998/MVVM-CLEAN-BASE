@@ -56,7 +56,7 @@ class PaginatedListFragment :
         loadProductIntoList()
         viewLifecycleOwner.flowWithLifecycleUI(
             curatedImageViewModel.postFlowSearchPaging,
-            Lifecycle.State.CREATED
+            Lifecycle.State.STARTED
         ) { paginatedResponse ->
             paginatedResponse.handlePaginatedCallback(this, this)
         }

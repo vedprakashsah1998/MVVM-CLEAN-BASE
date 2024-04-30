@@ -9,6 +9,7 @@
 
 package com.infinity8.mvvm_clean_base.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.infinity8.mvvm_clean_base.model.CuratedImageModel
@@ -26,16 +27,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PopularImgViewModel @Inject constructor(private val popularUseCase: PopularUseCase) :
+class PopularImgViewModel @Inject constructor(
+    private val popularUseCase: PopularUseCase, private val savedStateHandle: SavedStateHandle
+) :
     ViewModel() {
 
+    private val CURATED_IMAGE_KEY = "curated_image_data_1"
     private val _postFlowSearchPaging: MutableStateFlow<Outcome<CuratedImageModel?>> =
-        MutableStateFlow(Outcome.Progress(true))
+        savedStateHandle[CURATED_IMAGE_KEY] ?: MutableStateFlow(Outcome.Progress(true))
     val postFlowSearchPaging: StateFlow<Outcome<CuratedImageModel?>> =
         _postFlowSearchPaging
 
     fun getPopularImg() {
         viewModelScope.launch {
+            if (_postFlowSearchPaging.value is Outcome.Success) {
+                return@launch
+            }
             popularUseCase.invoke().onStart {
                 _postFlowSearchPaging.value = Outcome.Progress(true)
             }.onCompletion {
@@ -46,6 +53,7 @@ class PopularImgViewModel @Inject constructor(private val popularUseCase: Popula
             }
         }
     }
+
     override fun onCleared() {
         super.onCleared()
         viewModelScope.cancel()

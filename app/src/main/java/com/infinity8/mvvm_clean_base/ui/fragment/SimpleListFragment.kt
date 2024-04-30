@@ -41,7 +41,7 @@ class SimpleListFragment :
         popularImgViewModel.getPopularImg()
         viewLifecycleOwner.launchWithLifecycle(
             popularImgViewModel.postFlowSearchPaging,
-            Lifecycle.State.CREATED
+            Lifecycle.State.STARTED
         ) { paginatedResponse ->
             paginatedResponse.handleStateData(view, this@SimpleListFragment)
         }
