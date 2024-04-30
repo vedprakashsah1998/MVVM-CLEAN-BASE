@@ -37,11 +37,16 @@ class CuratedImageViewModel @Inject constructor(
     ViewModel() {
     private val CURATED_IMAGE_KEY = "curated_image_data"
     private val _postFlowSearchPaging: MutableStateFlow<Outcome<PagingData<Photo>>> =
-        savedStateHandle[CURATED_IMAGE_KEY]
-            ?: MutableStateFlow(Outcome.Progress(true))
+        MutableStateFlow(Outcome.Progress(true))
     val postFlowSearchPaging: StateFlow<Outcome<PagingData<Photo>>> =
         _postFlowSearchPaging
-
+    init {
+        // Check the saved state handle to decide if we need to fetch data
+        val hasFetchedBefore = savedStateHandle.get<Boolean>(CURATED_IMAGE_KEY) ?: false
+        if (!hasFetchedBefore) {
+            getCuratedImage()
+        }
+    }
     fun getCuratedImage() {
         viewModelScope.launch {
             if (_postFlowSearchPaging.value is Outcome.Success) {
@@ -58,6 +63,7 @@ class CuratedImageViewModel @Inject constructor(
                     }
                     .collectLatest { pagingData ->
                         _postFlowSearchPaging.value = Outcome.Success(pagingData)
+                        savedStateHandle[CURATED_IMAGE_KEY] = true
                     }
             } catch (e: Exception) {
                 _postFlowSearchPaging.value = Outcome.Failure(e)
