@@ -16,7 +16,13 @@ import android.net.NetworkInfo
 import android.os.Build
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.IdRes
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.infinity8.mvvm_clean_base.model.Photo
+
 fun Context.isNetworkAvailable(): Boolean {
     val connectivityManager =
         this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -39,15 +45,19 @@ fun Context.checkNetwork(
     noInternetLabel: TextView,
     getPhotoList: () -> Unit
 ) {
-    if (this.isNetworkAvailable()) {
-        recyclerView.visibility = View.VISIBLE
-        noInternetLabel.visibility = View.GONE
+    val isConnected = this.isNetworkAvailable()
+    recyclerView.visibility = if (isConnected) View.VISIBLE else View.GONE
+    noInternetLabel.visibility = if (isConnected) View.GONE else View.VISIBLE
+    if (isConnected) {
         getPhotoList()
-    } else {
-        recyclerView.visibility = View.GONE
-        noInternetLabel.visibility = View.VISIBLE
     }
 }
+
+fun Fragment.navigateFragment(@IdRes resId: Int, photo: Photo? = null) =
+    findNavController().navigate(
+        resId,
+        bundleOf("photo" to photo)
+    )
 
 inline fun <reified T : RecyclerView.Adapter<*>> RecyclerView.setUpAdapter(
     adapter: T? = null

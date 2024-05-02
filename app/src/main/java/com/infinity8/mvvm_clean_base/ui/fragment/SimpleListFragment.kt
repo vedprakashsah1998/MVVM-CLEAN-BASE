@@ -2,10 +2,8 @@ package com.infinity8.mvvm_clean_base.ui.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.fragment.findNavController
 import com.infinity8.mvvm_clean_base.R
 import com.infinity8.mvvm_clean_base.controller.Callbacks
 import com.infinity8.mvvm_clean_base.controller.UICallback
@@ -17,6 +15,7 @@ import com.infinity8.mvvm_clean_base.ui.adapter.PopularImgAdapter
 import com.infinity8.mvvm_clean_base.utils.checkNetwork
 import com.infinity8.mvvm_clean_base.utils.handleStateData
 import com.infinity8.mvvm_clean_base.utils.launchWithLifecycle
+import com.infinity8.mvvm_clean_base.utils.navigateFragment
 import com.infinity8.mvvm_clean_base.utils.setUpAdapter
 import com.infinity8.mvvm_clean_base.viewmodel.PopularImgViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,10 +51,8 @@ class SimpleListFragment :
         popularImgAdapter.diffCall.submitList(resList.photos)
     }
 
-    override fun recyclerviewItemClick(photo: Photo?) = findNavController().navigate(
-        R.id.action_simpleListFragment_to_detailsFragment,
-        bundleOf("photo" to photo)
-    )
+    override fun recyclerviewItemClick(photo: Photo?) =
+        navigateFragment(R.id.action_simpleListFragment_to_detailsFragment,photo)
 
     override fun <T> loadingNetwork(result: T) {
         val res = result as Boolean

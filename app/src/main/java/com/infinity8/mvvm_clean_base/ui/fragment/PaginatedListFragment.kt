@@ -2,10 +2,8 @@ package com.infinity8.mvvm_clean_base.ui.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.infinity8.mvvm_clean_base.R
@@ -19,6 +17,7 @@ import com.infinity8.mvvm_clean_base.ui.adapter.MainLoadStateAdapter
 import com.infinity8.mvvm_clean_base.utils.checkNetwork
 import com.infinity8.mvvm_clean_base.utils.flowWithLifecycleUI
 import com.infinity8.mvvm_clean_base.utils.handlePaginatedCallback
+import com.infinity8.mvvm_clean_base.utils.navigateFragment
 import com.infinity8.mvvm_clean_base.utils.setUpAdapter
 import com.infinity8.mvvm_clean_base.utils.showErrorSnackBar
 import com.infinity8.mvvm_clean_base.viewmodel.CuratedImageViewModel
@@ -37,19 +36,13 @@ class PaginatedListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvCurated.setUpAdapter(curatedPageAdapter.withLoadStateFooter(footer = MainLoadStateAdapter()))
-        requireContext().checkNetwork(binding.rvCurated, binding.noInternetLbl) {
-            getPhotoList()
-        }
-        binding.search.setOnClickListener {
-            findNavController().navigate(R.id.action_paginatedListFragment_to_barGraphUI)
-        }
+        requireContext().checkNetwork(binding.rvCurated, binding.noInternetLbl, ::getPhotoList)
+        binding.search.setOnClickListener { navigateFragment(R.id.action_paginatedListFragment_to_barGraphUI) }
 
     }
 
-    override fun recyclerviewItemClick(photo: Photo?) = findNavController().navigate(
-        R.id.action_paginatedListFragment_to_detailsFragment,
-        bundleOf("photo" to photo)
-    )
+    override fun recyclerviewItemClick(photo: Photo?) =
+        navigateFragment(R.id.action_paginatedListFragment_to_detailsFragment, photo)
 
     private fun getPhotoList() {
         curatedImageViewModel.getCuratedImage()

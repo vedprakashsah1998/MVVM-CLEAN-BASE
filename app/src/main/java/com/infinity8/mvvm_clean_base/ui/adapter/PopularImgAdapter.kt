@@ -18,17 +18,20 @@ import com.infinity8.mvvm_clean_base.model.Photo
 import com.infinity8.mvvm_clean_base.utils.diff.createAsyncListDifferWithDiffCallback
 import com.infinity8.mvvm_clean_base.utils.loadImageNormal
 
-internal class PopularImgAdapter(val uiCallback: UICallback) : RecyclerView.Adapter<PopularImgAdapter.PopularImgHolder>() {
+internal class PopularImgAdapter(val uiCallback: UICallback) :
+    RecyclerView.Adapter<PopularImgAdapter.PopularImgHolder>() {
     inner class PopularImgHolder(private val binding: CuratedItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: Photo?) {
-            binding.artistName.text = photo?.photographer
-            binding.artistBody.text = photo?.alt
-            binding.imgSrc.loadImageNormal(photo?.src?.large2x.toString())
-            binding.root.setOnClickListener {
-                val adapterPosition = bindingAdapterPosition
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    uiCallback.recyclerviewItemClick(photo)
+            binding.apply {
+                artistName.text = photo?.photographer
+                artistBody.text = photo?.alt
+                imgSrc.loadImageNormal(photo?.src?.large2x.toString())
+                root.setOnClickListener {
+                    val adapterPosition = bindingAdapterPosition
+                    if (adapterPosition != RecyclerView.NO_POSITION) {
+                        uiCallback.recyclerviewItemClick(photo)
+                    }
                 }
             }
         }

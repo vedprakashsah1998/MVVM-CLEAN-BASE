@@ -15,5 +15,5 @@ import javax.inject.Inject
 
 class PopularImgRepo @Inject constructor(private val retroService: RetroService) {
     suspend fun getPopularImage() =
-        flowOf(retroService.getPopularImage("20", "1"))
+        flowOf(retroService.getPopularImage("80", "1"))
 }

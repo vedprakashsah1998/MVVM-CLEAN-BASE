@@ -37,16 +37,18 @@ internal class CuratedPagedAdapter(val uiCallback: UICallback) :
     inner class CuratedPageViewHolder(private val binding: CuratedItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(photo: Photo?) {
-            binding.artistName.text = photo?.photographer
-            binding.artistBody.text = photo?.alt
-            binding.imgSrc.loadImageNormal(photo?.src?.large2x.toString())
-
-            binding.root.setOnClickListener {
-                val adapterPosition = bindingAdapterPosition
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    uiCallback.recyclerviewItemClick(photo)
+            binding.apply {
+                artistName.text = photo?.photographer
+                artistBody.text = photo?.alt
+                imgSrc.loadImageNormal(photo?.src?.large2x.toString())
+                root.setOnClickListener {
+                    val adapterPosition = bindingAdapterPosition
+                    if (adapterPosition != RecyclerView.NO_POSITION) {
+                        uiCallback.recyclerviewItemClick(photo)
+                    }
                 }
             }
+
         }
     }
 
