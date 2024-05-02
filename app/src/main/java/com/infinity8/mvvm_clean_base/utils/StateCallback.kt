@@ -35,8 +35,7 @@ fun <T> Outcome<T>.handleStateData(
         }
 
         is Outcome.Success -> {
-            Log.d("SUCCESS : ", "Progress:${data} ")
-            callbacks.loadingNetwork(false)
+            Log.d("SUCCESS : ", "Success Res: $data ")
             callbacks.successResponse(data)
         }
 

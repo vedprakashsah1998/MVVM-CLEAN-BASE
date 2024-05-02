@@ -33,7 +33,7 @@ class SimpleListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvPopular.setUpAdapter(popularImgAdapter)
-        requireContext().checkNetwork(binding.rvPopular, binding.noInternetLbl) { getPhotoList() }
+        getContextNullSafety()?.checkNetwork(binding.rvPopular, binding.noInternetLbl) { getPhotoList() }
     }
 
     private fun getPhotoList() {

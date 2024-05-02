@@ -21,9 +21,6 @@
         <action
             android:id="@+id/action_paginatedListFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
-        <argument
-            android:name="photo"
-            app:argType="com.infinity8.mvvm_clean_base.model.Photo" />
         <action
             android:id="@+id/action_paginatedListFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -47,7 +44,13 @@
         android:id="@+id/detailsFragment"
         android:name="com.infinity8.mvvm_clean_base.ui.fragment.DetailsFragment"
         android:label="@string/details_fragment"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="photo"
+            app:argType="com.infinity8.mvvm_clean_base.model.Photo" />
+
+
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.infinity8.mvvm_clean_base.ui.fragment.SearchFragment"

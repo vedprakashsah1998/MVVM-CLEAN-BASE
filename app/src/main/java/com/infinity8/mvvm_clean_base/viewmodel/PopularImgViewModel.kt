@@ -39,7 +39,6 @@ class PopularImgViewModel @Inject constructor(
         _postFlowSearchPaging
 
     init {
-        // Check the saved state handle to decide if we need to fetch data
         val hasFetchedBefore = savedStateHandle.get<Boolean>(CURATED_IMAGE_KEY) ?: false
         if (!hasFetchedBefore) {
             getPopularImg()
@@ -48,7 +47,7 @@ class PopularImgViewModel @Inject constructor(
 
     fun getPopularImg() {
         viewModelScope.launch {
-            if (_postFlowSearchPaging.value is Outcome.Success) {
+            if (savedStateHandle.get<Boolean>(CURATED_IMAGE_KEY) == true) {
                 return@launch
             }
             popularUseCase.invoke().onStart {

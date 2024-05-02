@@ -36,7 +36,7 @@ class PaginatedListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvCurated.setUpAdapter(curatedPageAdapter.withLoadStateFooter(footer = MainLoadStateAdapter()))
-        requireContext().checkNetwork(binding.rvCurated, binding.noInternetLbl, ::getPhotoList)
+        getContextNullSafety()?.checkNetwork(binding.rvCurated, binding.noInternetLbl, ::getPhotoList)
         binding.search.setOnClickListener { navigateFragment(R.id.action_paginatedListFragment_to_barGraphUI) }
 
     }
