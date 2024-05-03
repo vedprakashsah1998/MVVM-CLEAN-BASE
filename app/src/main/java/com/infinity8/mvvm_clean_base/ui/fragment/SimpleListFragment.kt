@@ -34,7 +34,10 @@ class SimpleListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvPopular.setUpAdapter(popularImgAdapter)
-        getContextNullSafety()?.checkNetwork(binding.rvPopular, binding.noInternetLbl) { getPhotoList() }
+        getContextNullSafety()?.checkNetwork(
+            binding.rvPopular,
+            binding.noInternetLbl
+        ) { getPhotoList() }
     }
 
     override fun onAttach(context: Context) {
@@ -42,13 +45,12 @@ class SimpleListFragment :
         popularImgViewModel.getPopularImg()
 
     }
-    private fun getPhotoList() {
-        viewLifecycleOwner.launchWithLifecycle(
-            popularImgViewModel.postFlowSearchPaging,
-            Lifecycle.State.STARTED
-        ) { paginatedResponse ->
-            paginatedResponse.handleStateData(view, this@SimpleListFragment)
-        }
+
+    private fun getPhotoList() = viewLifecycleOwner.launchWithLifecycle(
+        popularImgViewModel.postFlowSearchPaging,
+        Lifecycle.State.STARTED
+    ) { paginatedResponse ->
+        paginatedResponse.handleStateData(view, this@SimpleListFragment)
     }
 
     override fun <T> successResponse(result: T) {
@@ -57,7 +59,7 @@ class SimpleListFragment :
     }
 
     override fun recyclerviewItemClick(photo: Photo?) =
-        navigateFragment(R.id.action_simpleListFragment_to_detailsFragment,photo)
+        navigateFragment(R.id.action_simpleListFragment_to_detailsFragment, photo)
 
     override fun <T> loadingNetwork(result: T) {
         val res = result as Boolean
