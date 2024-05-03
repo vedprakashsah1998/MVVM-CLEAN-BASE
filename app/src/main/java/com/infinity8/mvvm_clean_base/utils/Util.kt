@@ -62,6 +62,7 @@ fun Fragment.navigateFragment(@IdRes resId: Int, photo: Photo? = null) =
 inline fun <reified T : RecyclerView.Adapter<*>> RecyclerView.setUpAdapter(
     adapter: T? = null
 ) {
+    setItemViewCacheSize(20)
     setHasFixedSize(true)
     this.adapter = adapter
 }

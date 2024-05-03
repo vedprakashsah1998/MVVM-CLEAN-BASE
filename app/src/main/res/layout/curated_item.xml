@@ -20,6 +20,7 @@
         app:cardUseCompatPadding="true"
         android:padding="8dp"
         app:cardElevation="8dp"
+        app:cardCornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="wrap_content">
         <RelativeLayout

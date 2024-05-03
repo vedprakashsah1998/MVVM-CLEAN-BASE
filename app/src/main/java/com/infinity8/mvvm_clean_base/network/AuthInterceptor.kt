@@ -13,12 +13,12 @@ import com.infinity8.mvvm_clean_base.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class AuthInterceptor:Interceptor {
+class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val token = BuildConfig.Authorization
         val modifiedRequest = originalRequest.newBuilder()
-            .header("Authorization",  token)
+            .header("Authorization", token)
             .build()
         return chain.proceed(modifiedRequest)
     }

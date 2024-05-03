@@ -42,17 +42,11 @@ class CuratedImageViewModel @Inject constructor(
         _postFlowSearchPaging
 
     init {
-        val hasFetchedBefore = savedStateHandle.get<Boolean>(CURATED_IMAGE_KEY) ?: false
-        if (!hasFetchedBefore) {
             getCuratedImage()
-        }
     }
 
     fun getCuratedImage() {
         viewModelScope.launch {
-            if (_postFlowSearchPaging.value is Outcome.Success) {
-                return@launch
-            }
             try {
                 curatedImageRepo.getCuratedImage()
                     .cachedIn(viewModelScope)
@@ -64,7 +58,6 @@ class CuratedImageViewModel @Inject constructor(
                     }
                     .collectLatest { pagingData ->
                         _postFlowSearchPaging.value = Outcome.Success(pagingData)
-                        savedStateHandle[CURATED_IMAGE_KEY] = true
                     }
             } catch (e: Exception) {
                 _postFlowSearchPaging.value = Outcome.Failure(e)

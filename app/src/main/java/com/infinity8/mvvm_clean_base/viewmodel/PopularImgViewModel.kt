@@ -20,6 +20,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -39,25 +40,23 @@ class PopularImgViewModel @Inject constructor(
         _postFlowSearchPaging
 
     init {
-        val hasFetchedBefore = savedStateHandle.get<Boolean>(CURATED_IMAGE_KEY) ?: false
-        if (!hasFetchedBefore) {
+
             getPopularImg()
-        }
+
     }
 
     fun getPopularImg() {
         viewModelScope.launch {
-            if (savedStateHandle.get<Boolean>(CURATED_IMAGE_KEY) == true) {
-                return@launch
-            }
+
             popularUseCase.invoke().onStart {
                 _postFlowSearchPaging.value = Outcome.Progress(true)
             }.onCompletion {
                 _postFlowSearchPaging.value = Outcome.Progress(false)
 
+            }.catch { e ->
+                _postFlowSearchPaging.value = Outcome.Failure(e)
             }.collectLatest {
                 _postFlowSearchPaging.value = it.mapOutcome { data -> data }
-                savedStateHandle[CURATED_IMAGE_KEY] = true
             }
         }
     }

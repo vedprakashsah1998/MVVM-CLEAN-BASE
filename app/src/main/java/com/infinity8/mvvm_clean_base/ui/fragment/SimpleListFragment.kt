@@ -1,5 +1,6 @@
 package com.infinity8.mvvm_clean_base.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -36,8 +37,12 @@ class SimpleListFragment :
         getContextNullSafety()?.checkNetwork(binding.rvPopular, binding.noInternetLbl) { getPhotoList() }
     }
 
-    private fun getPhotoList() {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         popularImgViewModel.getPopularImg()
+
+    }
+    private fun getPhotoList() {
         viewLifecycleOwner.launchWithLifecycle(
             popularImgViewModel.postFlowSearchPaging,
             Lifecycle.State.STARTED

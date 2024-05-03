@@ -14,7 +14,6 @@ import com.infinity8.mvvm_clean_base.model.Photo
 import com.infinity8.mvvm_clean_base.ui.BaseFragment
 import com.infinity8.mvvm_clean_base.ui.adapter.CuratedPagedAdapter
 import com.infinity8.mvvm_clean_base.ui.adapter.MainLoadStateAdapter
-import com.infinity8.mvvm_clean_base.utils.checkNetwork
 import com.infinity8.mvvm_clean_base.utils.flowWithLifecycleUI
 import com.infinity8.mvvm_clean_base.utils.handlePaginatedCallback
 import com.infinity8.mvvm_clean_base.utils.navigateFragment
@@ -36,7 +35,8 @@ class PaginatedListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvCurated.setUpAdapter(curatedPageAdapter.withLoadStateFooter(footer = MainLoadStateAdapter()))
-        getContextNullSafety()?.checkNetwork(binding.rvCurated, binding.noInternetLbl, ::getPhotoList)
+//        getContextNullSafety()?.checkNetwork(binding.rvCurated, binding.noInternetLbl, ::getPhotoList)
+        getPhotoList()
         binding.search.setOnClickListener { navigateFragment(R.id.action_paginatedListFragment_to_barGraphUI) }
 
     }
@@ -45,7 +45,6 @@ class PaginatedListFragment :
         navigateFragment(R.id.action_paginatedListFragment_to_detailsFragment, photo)
 
     private fun getPhotoList() {
-        curatedImageViewModel.getCuratedImage()
         loadProductIntoList()
         viewLifecycleOwner.flowWithLifecycleUI(
             curatedImageViewModel.postFlowSearchPaging,

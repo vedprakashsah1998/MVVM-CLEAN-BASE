@@ -12,6 +12,7 @@ package com.infinity8.mvvm_clean_base.di
 import android.content.Context
 import com.infinity8.mvvm_clean_base.BuildConfig
 import com.infinity8.mvvm_clean_base.network.AuthInterceptor
+import com.infinity8.mvvm_clean_base.network.OfflineInterceptor
 import com.infinity8.mvvm_clean_base.network.RetroService
 import dagger.Module
 import dagger.Provides
@@ -48,13 +49,23 @@ object NetworkModule {
     @Provides
     fun providesAuthInterceptor() = AuthInterceptor()
 
+    @Singleton
+    @Provides
+    fun providesOfflineInterceptor(@ApplicationContext appContext: Context) =
+        OfflineInterceptor(appContext)
 
     @Singleton
     @Provides
-    fun providesOkHttpClient(interceptor: HttpLoggingInterceptor,authInterceptor: AuthInterceptor, cache: Cache) =
+    fun providesOkHttpClient(
+        interceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor,
+        offlineInterceptor: OfflineInterceptor,
+        cache: Cache
+    ) =
         OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .addInterceptor(authInterceptor)
+            .addInterceptor(offlineInterceptor)
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .cache(cache)
