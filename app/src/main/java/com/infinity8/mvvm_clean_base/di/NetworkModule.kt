@@ -10,6 +10,8 @@
 package com.infinity8.mvvm_clean_base.di
 
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.infinity8.mvvm_clean_base.BuildConfig
 import com.infinity8.mvvm_clean_base.network.AuthInterceptor
 import com.infinity8.mvvm_clean_base.network.OfflineInterceptor
@@ -45,6 +47,10 @@ object NetworkModule {
         return Cache(cacheDir, cacheSize.toLong())
     }
 
+    @Provides
+    @Singleton
+    fun getGson(): Gson = GsonBuilder().serializeNulls().setLenient().create()
+
     @Singleton
     @Provides
     fun providesAuthInterceptor() = AuthInterceptor()
@@ -74,9 +80,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(client: OkHttpClient): Retrofit =
+    fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit =
         Retrofit.Builder().baseUrl(BuildConfig.BASE_URL).client(client)
-            .addConverterFactory(GsonConverterFactory.create()).build()
+            .addConverterFactory(GsonConverterFactory.create(gson)).build()
 
     @Singleton
     @Provides
