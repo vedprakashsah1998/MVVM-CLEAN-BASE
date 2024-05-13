@@ -10,10 +10,9 @@
 package com.infinity8.mvvm_clean_base.repository
 
 import com.infinity8.mvvm_clean_base.network.RetroService
-import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class PopularImgRepo @Inject constructor(private val retroService: RetroService) {
     suspend fun getPopularImage() =
-        flowOf(retroService.getPopularImage("80", "1"))
+        retroService.getPopularImage("80", "1")
 }

@@ -9,7 +9,6 @@
 
 package com.infinity8.mvvm_clean_base.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -32,20 +31,18 @@ import javax.inject.Inject
 @HiltViewModel
 class CuratedImageViewModel @Inject constructor(
     private val curatedImageRepo: CuratedImageRepo,
-    private val savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
-    private val CURATED_IMAGE_KEY = "curated_image_data"
     private val _postFlowSearchPaging: MutableStateFlow<Outcome<PagingData<Photo>>> =
         MutableStateFlow(Outcome.Progress(true))
     val postFlowSearchPaging: StateFlow<Outcome<PagingData<Photo>>> =
         _postFlowSearchPaging
 
     init {
-            getCuratedImage()
+        getCuratedImage()
     }
 
-    fun getCuratedImage() {
+    private fun getCuratedImage() {
         viewModelScope.launch {
             try {
                 curatedImageRepo.getCuratedImage()
