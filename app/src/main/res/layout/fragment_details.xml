@@ -24,4 +24,21 @@
     app:layout_constraintEnd_toEndOf="parent"
     android:id="@+id/loadImg"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/downloadBtn"
+        android:text="@string/download"
+        android:textColor="@color/white"
+        android:insetBottom="0dp"
+        android:insetLeft="0dp"
+        android:insetRight="0dp"
+        android:backgroundTint="#B7222121"
+        android:insetTop="0dp"
+        android:layout_marginBottom="22dp"
+        app:cornerRadius="8dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

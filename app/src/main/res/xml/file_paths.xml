@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /*
+  ~   Created by Ved Prakash on 5/21/24, 4:30 PM
+  ~   Copyright (c) 2024 . All rights reserved.
+  ~   Last modified 5/21/24, 4:30 PM
+  ~   Organization: NeoSoft
+  ~  */
+  -->
+
+<paths>
+    <external-path
+        name="downloads"
+        path="." />
+</paths>
