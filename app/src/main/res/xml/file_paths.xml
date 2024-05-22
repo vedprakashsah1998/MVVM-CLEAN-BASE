@@ -8,7 +8,7 @@
   -->
 
 <paths>
-    <external-path
-        name="downloads"
+    <external-files-path
+        name="external_files"
         path="." />
 </paths>
