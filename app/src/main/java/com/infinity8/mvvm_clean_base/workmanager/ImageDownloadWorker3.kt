@@ -31,7 +31,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLDecoder
 
-class ImageDownloadWorker3(val context: Context, val workerParams: WorkerParameters) :
+class ImageDownloadWorker3(val context: Context, private val workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
     private val notificationId = 1
     private val channelId = "download_channel"
@@ -42,7 +42,7 @@ class ImageDownloadWorker3(val context: Context, val workerParams: WorkerParamet
     }
 
     override suspend fun doWork(): Result {
-        val imageUrl = inputData.getString("IMAGE_URL")
+        val imageUrl = workerParams.inputData.getString("IMAGE_URL")
         val downloadedFile = downloadImage(imageUrl)
 
         if (downloadedFile != null) {
