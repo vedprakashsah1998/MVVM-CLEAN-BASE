@@ -46,6 +46,7 @@ class PaginatedListFragment :
 
     private fun getPhotoList() {
         loadProductIntoList()
+        analyticsService.logEvent("getPhotoList")
         viewLifecycleOwner.flowWithLifecycleUI(
             curatedImageViewModel.postFlowSearchPaging,
             Lifecycle.State.STARTED

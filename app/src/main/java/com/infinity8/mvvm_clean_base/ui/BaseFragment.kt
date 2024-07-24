@@ -17,6 +17,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
+import com.infinity8.mvvm_clean_base.datasource.AnalyticsService
+import javax.inject.Inject
 
 
 abstract class BaseFragment<B : ViewBinding>(
@@ -26,6 +28,8 @@ abstract class BaseFragment<B : ViewBinding>(
     lateinit var binding: B
     private var contextNullSafe: Context? = null
 
+    @Inject
+    lateinit var analyticsService: AnalyticsService
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
